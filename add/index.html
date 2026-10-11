@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Pakt: an invite</title>
+<link rel="icon" href="../img/favicon.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main>
+<section class="hero">
+  <img class="icon" src="../img/icon.png" alt="">
+  <h1 id="title">You're invited to be friends on Pakt</h1>
+  <p class="lead" id="lead">Open the invite in Pakt to add your friend.</p>
+  <p><a class="badge" id="open" href="#">Open in Pakt</a></p>
+  <p id="code-line"><span id="code-label">Or enter this code in Pakt, under Town hall, Friends:</span> <strong id="code"></strong></p>
+  <p><a id="store" href="https://apps.apple.com/app/id6820449724">Get Pakt on the App Store</a></p>
+</section>
+</main>
+<script>
+(function () {
+  var code = (location.hash || "").slice(1).toUpperCase().replace(/[^0-9A-Z]/g, "");
+  var valid = /^[0-9A-HJKMNP-TV-Z]{10}$/.test(code);
+  var nb = /^(nb|no|nn)/i.test(navigator.language || "");
+  var t = nb ? {
+    title: "Du er invitert til å bli venner på Pakt",
+    lead: "Åpne invitasjonen i Pakt for å legge til vennen din.",
+    open: "Åpne i Pakt",
+    code: "Eller skriv inn denne koden i Pakt, under Rådhuset, Venner:",
+    store: "Hent Pakt i App Store",
+    bad: "Denne lenken mangler en invitasjonskode. Be vennen din sende den på nytt."
+  } : {
+    title: "You're invited to be friends on Pakt",
+    lead: "Open the invite in Pakt to add your friend.",
+    open: "Open in Pakt",
+    code: "Or enter this code in Pakt, under Town hall, Friends:",
+    store: "Get Pakt on the App Store",
+    bad: "This link has no invite code. Ask your friend to send it again."
+  };
+  document.documentElement.lang = nb ? "nb" : "en";
+  document.title = nb ? "Pakt: en invitasjon" : "Pakt: an invite";
+  document.getElementById("title").textContent = t.title;
+  document.getElementById("store").textContent = t.store;
+  if (!valid) {
+    document.getElementById("lead").textContent = t.bad;
+    document.getElementById("open").style.display = "none";
+    document.getElementById("code-line").style.display = "none";
+    return;
+  }
+  document.getElementById("lead").textContent = t.lead;
+  document.getElementById("open").textContent = t.open;
+  document.getElementById("open").href = "pakt://add/" + code;
+  document.getElementById("code-label").textContent = t.code;
+  document.getElementById("code").textContent = code.slice(0, 5) + " " + code.slice(5);
+})();
+</script>
+</body>
+</html>
